@@ -14,6 +14,7 @@ function zap_device {
     for type in " data" " journal" " block" " block.wal" " block.db"; do
       for disk in $(blkid -t PARTLABEL="ceph$type" -o device | uniq); do
         dev="$dev ${disk%?}"
+        dd if=/dev/zero of="${disk}" bs=4k count=1
       done
     done
     # get a uniq list of devices to wipe
@@ -38,6 +39,7 @@ function zap_device {
     # look for Ceph encrypted partitions
     local ceph_dm
     ceph_dm=$(blkid -t TYPE="crypto_LUKS" "${OSD_DEVICE}"* -o value -s PARTUUID || true)
+    ceph_lockbox_part_uuid=$(blkid -t PARTLABEL="ceph lockbox" -o value -s PARTUUID "${OSD_DEVICE}"* || true)
     if [[ -n $ceph_dm ]]; then
       for dm_uuid in $ceph_dm; do
         local dm_path="/dev/disk/by-partuuid/$dm_uuid"
@@ -57,6 +59,9 @@ function zap_device {
         # remove LUKS header
         dd if=/dev/zero of="$dm_path" bs="$phys_sector_size" count="$payload_offset" oflag=direct
       done
+      if [[ -n $ceph_lockbox_part_uuid ]]; then
+        dd if=/dev/zero of=/dev/disk/by-partuuid/"${ceph_lockbox_part_uuid}" bs=4k count=1
+      fi
     fi
 
     for device in $(comma_to_space "${OSD_DEVICE}"); do
