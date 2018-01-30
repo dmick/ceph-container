@@ -3,7 +3,7 @@
 # CEPH VERSION DETAIL: 12.x.x
 
 FROM centos:7
-MAINTAINER Sébastien Han "seb@redhat.com"
+MAINTAINER Sebastien Han "seb@redhat.com"
 
 ENV CEPH_VERSION luminous
 ENV CONFD_VERSION 0.10.0
