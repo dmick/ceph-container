@@ -83,7 +83,8 @@ for flavor in $flavors_to_build; do
       # Just echo the make command we would've executed if this is a dry run
       dry_run_info "${make_cmd}"
     fi
-    do_push "${full_build_tag}"
+    echo "would push ${full_build_tag}, neutered"
+    # do_push "${full_build_tag}"
   done  # for version in ${ceph_version_list}
 
 done  # for flavor in $flavors_to_build
