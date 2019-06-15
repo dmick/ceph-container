@@ -14,6 +14,7 @@ source "${SCRIPT_DIR}/ceph-build-config.sh"
 # Main
 #
 
+OUTDIR=${1}
 flavors_to_build="$(get_flavors_to_build "${ARCH}")"
 
 install_docker
@@ -85,6 +86,9 @@ for flavor in $flavors_to_build; do
     fi
     echo "would push ${full_build_tag}, neutered"
     # do_push "${full_build_tag}"
+    tarball_name=$(echo ${full_build_tag} | sed -e 's;ceph/;;')
+    echo "writing ${OUTDIR}/${tarball_name}"
+    docker export -o ${OUTDIR}/${tarball_name} ${full_build_tag}
   done  # for version in ${ceph_version_list}
 
 done  # for flavor in $flavors_to_build
