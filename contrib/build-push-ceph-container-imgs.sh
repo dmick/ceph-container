@@ -212,7 +212,7 @@ function create_registry_manifest {
 
       #shellcheck disable=SC2086
       docker manifest create $DOCKER_IMAGES
-      docker manifest push "$TARGET_RELEASE"
+      # docker manifest push "$TARGET_RELEASE"
     done
   done
 }
@@ -224,7 +224,7 @@ function create_registry_manifest {
 
 install_docker
 cleanup_previous_run
-login_docker_hub
+# login_docker_hub
 create_head_or_point_release
 build_ceph_imgs
 push_ceph_imgs
