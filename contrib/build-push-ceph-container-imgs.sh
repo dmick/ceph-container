@@ -132,7 +132,7 @@ function create_head_or_point_release {
 declare -F build_ceph_imgs  ||
 function build_ceph_imgs {
   echo "Build Ceph container image(s)"
-  make RELEASE="$RELEASE" build.parallel
+  make FLAVORS="${RELEASE},centos,7" RELEASE="$RELEASE" build.parallel
   docker images
 }
 
