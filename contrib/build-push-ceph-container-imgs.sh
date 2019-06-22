@@ -231,11 +231,11 @@ FLAVOR_CODENAME="master"
 build_ceph_imgs
 # push_ceph_imgs
 wait_for_arm_images
-create_registry_manifest
+#create_registry_manifest
 # If we run on a tagged head, we should not push the 'latest' tag
-if $TAGGED_HEAD; then
-  echo "Don't push latest as we run on a tagged head"
-  exit 0
-fi
+#if $TAGGED_HEAD; then
+#  echo "Don't push latest as we run on a tagged head"
+#  exit 0
+#fi
 # push_ceph_imgs_latests
 # build_and_push_latest_bis
