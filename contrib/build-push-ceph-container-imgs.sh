@@ -132,7 +132,7 @@ function create_head_or_point_release {
 declare -F build_ceph_imgs  ||
 function build_ceph_imgs {
   echo "Build Ceph container image(s)"
-  make FLAVORS="${RELEASE},centos,7" RELEASE="$RELEASE" build.parallel
+  make FLAVORS="${FLAVOR_CODENAME},centos,7" RELEASE="$RELEASE" build.parallel
   docker images
 }
 
@@ -226,8 +226,10 @@ install_docker
 cleanup_previous_run
 # login_docker_hub
 create_head_or_point_release
+FLAVOR_CODENAME="master"
+
 build_ceph_imgs
-push_ceph_imgs
+# push_ceph_imgs
 wait_for_arm_images
 create_registry_manifest
 # If we run on a tagged head, we should not push the 'latest' tag
@@ -235,5 +237,5 @@ if $TAGGED_HEAD; then
   echo "Don't push latest as we run on a tagged head"
   exit 0
 fi
-push_ceph_imgs_latests
-build_and_push_latest_bis
+# push_ceph_imgs_latests
+# build_and_push_latest_bis
