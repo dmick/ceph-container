@@ -136,8 +136,8 @@ function build_ceph_imgs {
   docker images
   DAEMON_IMAGE=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep ceph/daemon:)
   DAEMON_BASE_IMAGE=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep ceph/daemon-base:)
-  DAEMON_IMAGE_FILENAME=$(echo $DAEMON_IMAGE | sed -e 's;[/:];-;g')
-  DAEMON_BASE_IMAGE_FILENAME=$(echo $DAEMON_BASE_IMAGE | sed -e 's;[/:];-;g')
+  DAEMON_IMAGE_FILENAME=$(echo $DAEMON_IMAGE | sed -e 's;[/:];-;g').tar
+  DAEMON_BASE_IMAGE_FILENAME=$(echo $DAEMON_BASE_IMAGE | sed -e 's;[/:];-;g').tar
   docker save ${DAEMON_IMAGE} -o ${DAEMON_IMAGE_FILENAME}
   docker save ${DAEMON_BASE_IMAGE} -o ${DAEMON_BASE_IMAGE_FILENAME}
   gzip ${DAEMON_IMAGE_FILENAME}
