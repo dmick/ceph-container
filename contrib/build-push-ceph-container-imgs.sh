@@ -134,6 +134,12 @@ function build_ceph_imgs {
   echo "Build Ceph container image(s)"
   make FLAVORS="${FLAVOR_CODENAME},centos,7" RELEASE="$RELEASE" build.parallel
   docker images
+  DAEMON_IMAGE=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep ceph/daemon:)
+  DAEMON_BASE_IMAGE=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep ceph/daemon-base:)
+  DAEMON_IMAGE_FILENAME=$(echo $DAEMON_IMAGE | sed -e 's;[/:];-;g')
+  DAEMON_BASE_IMAGE_FILENAME=$(echo $DAEMON_BASE_IMAGE | sed -e 's;[/:];-;g')
+  docker save ${DAEMON_IMAGE} -o ${HOME}/${DAEMON_IMAGE_FILENAME}
+  docker save ${DAEMON_BASE_IMAGE} -o ${HOME}/${DAEMON_BASE_IMAGE_FILENAME}
 }
 
 declare -F push_ceph_imgs ||
