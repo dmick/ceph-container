@@ -234,9 +234,10 @@ install_docker
 cleanup_previous_run
 # login_docker_hub
 create_head_or_point_release
-FLAVOR_CODENAME="master"
 
+FLAVOR_CODENAME="nautilus"
 build_ceph_imgs
+
 # push_ceph_imgs
 wait_for_arm_images
 #create_registry_manifest
